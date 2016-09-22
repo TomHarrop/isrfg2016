@@ -1,0 +1,101 @@
+/*Font*/
+slides slide {
+  font-family: "Lato", "Open Sans", Arial, sans-serif;
+}
+
+/*Refereces*/
+.source2 {
+  font-size: 14px;
+  color: darkgrey;
+  text-align: right;
+  position: absolute;
+  bottom: 70px;
+  right: 60px;
+}
+
+/*Centre align headings*/
+h1, h2, h3 {
+    text-align: center;
+}
+.title-slide h1 {
+    text-align: left;
+}
+.title-slide hgroup h1 {
+  font-size: 55px;
+  margin-right: 120px;
+}
+
+/*Background image for some slides*/
+slide.title-slide,
+slide:nth-last-of-type(2) {
+  background: url("p2r.png");
+  background-size: cover;
+  background-position: center
+}
+
+/*Tidy tiling on list + photo slide*/
+slide:nth-of-type(6) article ul {
+  max-width: 300px;
+  margin-left: 4em;
+  }
+
+
+/*Centre flexbox on every slide*/
+slide article {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/*Scale images to 879x432 to allow higher res*/
+slide article img {
+    max-width: 879px;
+    max-height: 432px;
+}
+
+/*Tables*/
+slide article table.rmdtable {
+  width: auto;
+  border-bottom: 0;
+
+}
+
+slide article table.rmdtable th {
+  width: auto;
+  border-bottom: 0;
+  font-size: 18px;
+  background: #377eb8;
+}
+
+slide article table.rmdtable td, table th {
+  padding: 0.5em 1em;
+  font-size: 18px;
+}
+
+/*Logos*/
+
+aside.gdbar {
+  background: -webkit-linear-gradient(left,rgba(230,230,230,0),
+    rgba(230,230,230,1)); 
+  background: -o-linear-gradient(right,rgba(230,230,230,0),
+    rgba(230,230,230,1));
+  background: -moz-linear-gradient(right,rgba(230,230,230,0),
+    rgba(230,230,230,1));
+  background: linear-gradient(to right, rgba(230,230,230,0),
+    rgba(230,230,230,1));
+}
+
+#acknowledgements img {
+  max-height: 100px;
+  max-width: 295px;
+  position: absolute;
+  bottom: 75px;
+}
+
+#acknowledgements img:nth-of-type(1) {
+  left: 60px;
+}
+
+#acknowledgements img:nth-of-type(2) {
+  right: 60px;
+}

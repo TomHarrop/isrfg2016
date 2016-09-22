@@ -1,0 +1,140 @@
+---
+title: "Transitions in meristem identity during inflorescence development"
+author: "Tom Harrop<br>thomas.harrop@ird.fr<br>"
+date: "2016-09-27"
+output:
+  ioslides_presentation:
+    self_contained: false
+    smaller: true
+    transition: "faster"
+    widescreen: true
+    css: css/overrides.css
+    logo: css/logo.png
+    fig_width: 9.16
+    fig_height: 4.5
+    keep_md: true
+    includes:
+      in_header: css/header.html
+---
+
+```{r setup, include=FALSE, results="hide"}
+
+# Default resolution is 96 dpi. Higher dpi can be used in R but the figures
+# have to be resized using css or `out.width`.
+# For proper scaling in the html, the figures should be:
+# w    x    h
+# 879       432  px
+# 9.16      4.5  in
+# for slides with subtitles:
+# w    x    h
+# 879       362  px
+# 9.16      3.77  in
+#
+# the smaller figure is not quite right, try 432 px - 48 px - (45 px / 2)
+# 48 px = space taken by the h3 (subtitle)
+# 45 px = margin added to slide > article 
+
+theme_slide <- ggplot2::theme_grey(
+  base_size = 16, base_family = "Lato") +
+  ggplot2::theme(
+    plot.background = ggplot2::element_rect(fill = "transparent", colour = NA),
+    legend.background = ggplot2::element_rect(fill = "transparent", colour = NA),
+    plot.margin = grid::unit(rep(0, 4), "mm"))
+knitr::opts_chunk$set(
+  dev.args=list(bg = "transparent", family = "Lato"),
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  dpi = 300,
+  cache = TRUE)
+source("src/plots.R")
+```
+
+## Inflorescence architecture
+
+![](img/pan_arch.png)
+
+## Inflorescence development
+
+![](img/meristem_identities.png)
+
+<footer class="source2">Harrop <em>et al</em>. (2016), Plant J. <a href="http://onlinelibrary.wiley.com/doi/10.1111/tpj.13147/full">10.1111/tpj.13147</a></footer>
+
+## Regulatory network controlling rice inflorescence development
+
+## Laser microdissection (LMD)
+
+![](img/lmdFigure.png)
+
+<footer class="source2">Harrop <em>et al</em>. (2016), Plant J. <a href="http://onlinelibrary.wiley.com/doi/10.1111/tpj.13147/full">10.1111/tpj.13147</a>.</footer>
+
+## LMD results
+
+```{r qc.plot, cache = FALSE}
+print(qc.plot)
+```
+
+<footer class="source2">Dissections: Israr Ud Din, Hélène Adam, Michela Osnato</footer>
+
+## Uses of the dataset
+
+## Regulatory modules
+
+```{r mfuzzClusters, cache = FALSE}
+print(mfuzzClusters)
+```
+
+## *O. sativa* *G1*-Like genes
+
+```{r g1l.lmd.plot, cache = FALSE}
+print(g1l.lmd.plot)
+```
+
+## *G1L5* (*TAW1*) targets
+
+```{r svp.lmd.plot, cache = FALSE}
+print(svp.lmd.plot)
+```
+
+## Oryza *G1*-Like genes
+
+```{r g1l.fa.plot, cache=FALSE}
+print(g1l.fa.plot)
+```
+
+## Link to Israr's poster
+
+## Acknowledgements
+
+<div class="columns-2">
+
+*  **EDI team**, IRD, Montpellier, France
+    * Hélène Adam
+    * Stefan Jouannic
+    * James Tregear
+    * Axel Verdier
+
+*  **Kater Lab**, Università degli Studi di Milano, Italy
+    * Israr Ud Din
+    * Veronica Gregis
+    * Michela Osnato
+    * Martin Kater
+
+</ul><ul>
+
+* Bioinformatics @ IRD
+    * Christine Tranchant
+    * François Sabot
+    * Ndomassi Tando
+    * Pierre Larmande
+
+* Sequencing & microscopy
+    * Histology and Plant Cell Imaging Platform (PHIV: CIRAD, Montpellier, France)
+    * Hélène Vignes (CIRAD, Montpellier, France)
+    * Génopole Toulouse Midi-Pyrénées (genotoul: Toulouse, France)
+    
+</div>
+
+![](img/agropolis.png)
+
+![](img/cariplo.png)
