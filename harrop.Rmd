@@ -60,13 +60,22 @@ source("src/plots.R")
 
 <footer class="source2">Harrop <em>et al</em>. (2016), Plant J. <a href="http://onlinelibrary.wiley.com/doi/10.1111/tpj.13147/full">10.1111/tpj.13147</a></footer>
 
-## Regulatory network controlling rice inflorescence development
+## Molecular control of meristem identity
+
+```{r venn, cache = FALSE, fig.width = 9.16/2}
+grid::grid.draw(vd)
+```
+
+<br>
+
+* which genes control transitions in meristem identity?
+* how do they interact to produce distinct gene expression landscapes?
+* do they affect branching and yield?
+* how has domestication affected the networks?
 
 ## Laser microdissection (LMD)
 
 ![](img/lmdFigure.png)
-
-<footer class="source2">Harrop <em>et al</em>. (2016), Plant J. <a href="http://onlinelibrary.wiley.com/doi/10.1111/tpj.13147/full">10.1111/tpj.13147</a>.</footer>
 
 ## LMD results
 
@@ -76,33 +85,51 @@ print(qc.plot)
 
 <footer class="source2">Dissections: Israr Ud Din, Hélène Adam, Michela Osnato</footer>
 
-## Uses of the dataset
+## LMD dataset
+
+* Available to use: [https://github.com/EvoRepRice/](https://github.com/evoreprice/lmdpaper/ "EvoRepRice on GitHub")
+* Genes of interest
+* Factors coordinating regulatory modules
+* Gene regulatory networks
+* Reference for GWAS data
+
+<br>
+
+![](img/db.png)
 
 ## Regulatory modules
 
-```{r mfuzzClusters, cache = FALSE}
+```{r mfuzzClusters}
 print(mfuzzClusters)
 ```
 
 ## *O. sativa* *G1*-Like genes
 
-```{r g1l.lmd.plot, cache = FALSE}
+```{r g1l.lmd.plot}
 print(g1l.lmd.plot)
 ```
 
 ## *G1L5* (*TAW1*) targets
 
-```{r svp.lmd.plot, cache = FALSE}
+```{r svp.lmd.plot}
 print(svp.lmd.plot)
 ```
 
 ## Oryza *G1*-Like genes
 
-```{r g1l.fa.plot, cache=FALSE}
+```{r g1l.fa.plot}
 print(g1l.fa.plot)
 ```
 
-## Link to Israr's poster
+## *G1*-Like genes
+
+* *Functional characterization of genes putatively controlling inflorescence development in Arabidopsis and rice*, Israr Ud Din, **poster x**.
+
+<br>
+
+![](img/israr.png)
+
+## Talk about application to GRN modelling
 
 ## Acknowledgements
 

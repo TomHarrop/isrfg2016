@@ -311,3 +311,32 @@ mfuzzClusters <- ggplot(
   geom_line(data = centres, mapping = aes(group = 1),
             colour = "#999999") +
   facet_wrap("label", ncol = 4)
+
+##################
+# VENN DIAGRAMME #
+##################
+
+det.lmd <- lmd.tpm.exp[, .(detected = sum(expressed) > 1),
+                       by = . (gene, stage)]
+
+cols <- RColorBrewer::brewer.pal(4, "Set1")[c(1, 4, 2, 3)]
+vd <- VennDiagram::venn.diagram(list(
+  "RM" = det.lmd[detected == TRUE & stage == "RM", unique(gene)],
+  "SM" = det.lmd[detected == TRUE & stage == "SM", unique(gene)],
+  "PBM" = det.lmd[detected == TRUE & stage == "PBM", unique(gene)],
+  "ePBM & AM" = det.lmd[detected == TRUE & stage == "ePBM & AM", unique(gene)]
+),
+filename = NULL,
+fill = cols,
+lty = "solid",
+lwd = 1,
+cex = 1,
+cat.cex = 1,
+fontfamily = 'Lato',
+cat.fontfamily = 'Lato',
+alpha = 0.5,
+margin = 0.01
+)
+
+
+
