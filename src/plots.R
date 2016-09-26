@@ -19,6 +19,13 @@ setnames(lmd.tpm.wide, "rn", "gene")
 lmd.exp.wide <- data.table(readRDS("data/lmd/expGenTT.Rds"))
 setnames(lmd.exp.wide, "id", "gene")
 
+# lmd lrt
+lmd.lrt <- readRDS("data/lmd/ddsLrt.Rds")
+lmd.lrt.res <- data.table(data.frame(DESeq2::results(lmd.lrt)),
+                      keep.rownames = TRUE, key = "rn")
+setnames(lmd.lrt.res, "rn", "gene")
+lmd.lrt.p <- unique(lmd.lrt.res[, .(gene, padj)])
+
 # 5acc tpm
 fa.tpm <- readRDS("data/fa/tpm_with_calls.Rds")
 
@@ -31,6 +38,16 @@ lib.stats <- readRDS("data/lmd/libStats.Rds")
 # cluster results
 expressionMatrix <- readRDS('data/lmd/expressionMatrix.Rds')
 c1 <- readRDS('data/lmd/c1.Rds')
+
+# 20 accessions phenotyping
+branching.data <- as.data.table(read.table("data/OsOgObOrPTRAPdata.txt",
+                                           sep = "\t",
+                                           header = TRUE,
+                                           stringsAsFactors = FALSE,
+                                           dec = ","))
+
+# crowell gwas genes
+crowell.gwas <- readRDS("data/gwas_crowell_genes.Rds")
 
 #########
 # munge #
@@ -53,7 +70,7 @@ lmd.tpm.exp <- lmd.exp[lmd.tpm]
 lmd.tpm.exp[, stage := substr(library, 1, 2)]
 lmd.tpm.exp[, replicate := as.numeric(substr(library, 4, 4))]
 lmd.tpm.exp[, stage := factor(plyr::revalue(stage, stage.levels),
-                     levels = stage.levels)]
+                              levels = stage.levels)]
 lmd.tpm.exp[, library := NULL]
 
 # prepare 5acc column plot data
@@ -99,12 +116,12 @@ qc.pd <- melt(
   lib.stats[RIN >= 7],
   id.vars = c("Sample", "Replicate"),
   measure.vars = mv.order
-  )
+)
 qc.pd[, variable := factor(variable, levels = mv.order)]
 qc.pd[, Sample := factor(
   plyr::revalue(Sample, s.order),
   levels = s.order
-  )]
+)]
 
 qc.means <- qc.pd[, .(mean = rutils::GeometricMean(value),
                       lt = "Mean"), by = variable]
@@ -116,7 +133,7 @@ qc.plot <- ggplot(qc.pd, aes(
     axis.text.x = element_text(angle = 45, hjust = 1),
     strip.background = element_blank(),
     strip.text = element_text(size = rel(0.75))
-    ) +
+  ) +
   xlab(NULL) + ylab(NULL) +
   geom_hline(data = qc.means,
              aes(yintercept = mean, linetype = lt),
@@ -189,7 +206,7 @@ g1l.fa[is.na(symbol), symbol := gene]
 g1l.fa[, symbol := factor(symbol, levels = g1l.order)]
 
 my.pal <- c("#fcbba1", "#ef3b2c", "#a50f15",
-  "#9ecae1", "#08519c")
+            "#9ecae1", "#08519c")
 
 my.labels <- plyr::revalue(fa.to, c(
   "O. rufipogon" = bquote(italic("O. rufipogon")),
@@ -303,7 +320,7 @@ mfuzzClusters <- ggplot(
   theme_slide +
   theme(
     axis.text.x = element_text(angle = 45, hjust = 1)
-    ) +
+  ) +
   xlab(NULL) +
   scale_colour_gradientn(colours = heatscale, limits = c(0, 1),
                          breaks = seq(0, 1, 0.2), guide = FALSE) +
@@ -320,23 +337,128 @@ det.lmd <- lmd.tpm.exp[, .(detected = sum(expressed) > 1),
                        by = . (gene, stage)]
 
 cols <- RColorBrewer::brewer.pal(4, "Set1")[c(1, 4, 2, 3)]
-vd <- VennDiagram::venn.diagram(list(
-  "RM" = det.lmd[detected == TRUE & stage == "RM", unique(gene)],
-  "SM" = det.lmd[detected == TRUE & stage == "SM", unique(gene)],
-  "PBM" = det.lmd[detected == TRUE & stage == "PBM", unique(gene)],
-  "ePBM & AM" = det.lmd[detected == TRUE & stage == "ePBM & AM", unique(gene)]
-),
-filename = NULL,
-fill = cols,
-lty = "solid",
-lwd = 1,
-cex = 1,
-cat.cex = 1,
-fontfamily = 'Lato',
-cat.fontfamily = 'Lato',
-alpha = 0.5,
-margin = 0.01
+vd <- VennDiagram::venn.diagram(
+  list(
+    "RM" = det.lmd[detected == TRUE & stage == "RM", unique(gene)],
+    "SM" = det.lmd[detected == TRUE & stage == "SM", unique(gene)],
+    "PBM" = det.lmd[detected == TRUE & stage == "PBM", unique(gene)],
+    "ePBM & AM" = det.lmd[detected == TRUE & stage == "ePBM & AM", unique(gene)]
+  ),
+  filename = NULL,
+  fill = cols,
+  lty = "solid",
+  lwd = 1,
+  cex = 1,
+  cat.cex = 1,
+  fontfamily = 'Lato',
+  cat.fontfamily = 'Lato',
+  alpha = 0.5,
+  margin = 0.01
 )
+
+######################
+# PANICLE PHENOTYPES #
+######################
+
+# set legend labels
+branching.data[, Species := plyr::revalue(
+  Origin, c(Ob = "O. barthii", Os = "O. sativa",
+            Og = "O. glaberrima", Or = "O. rufipogon"))]
+
+# add number of accessions per species
+branching.data[, n_acc := length(unique(Bar_Code)), by = "Species"]
+setkey(branching.data, "Species", "Bar_Code", "Sowing_nb", "Repet_nb",
+       "Plant_nb", "Panicle_nb")
+
+# select data to plot
+branching.pd.wide <- unique(branching.data[, .(
+  Species, Bar_Code, Sowing_nb, Repet_nb, Plant_nb, Panicle_nb, Sp_nb,
+  SA_nb, TA_nb, n_acc)])
+
+# melt for pa vs sa
+branching.pd <- melt(
+  branching.pd.wide,
+  id.vars = c("Species", "Bar_Code", "Sowing_nb", "Plant_nb", "Panicle_nb",
+              "Repet_nb", "n_acc", "Sp_nb"),
+  measure.vars = c("SA_nb", "TA_nb"))
+
+# fix labels
+var.levels <- c("SA_nb" = "Primary branches", "TA_nb" = "Secondary branches")
+branching.pd[, guide_label := paste0(Species, " (", n_acc, ")")]
+branching.pd[, variable := factor(
+  plyr::revalue(variable, var.levels), levels = var.levels)]
+setnames(branching.pd, "Sp_nb", "Spikelets")
+
+# plot
+branching <- ggplot(branching.pd,
+                    aes(x = value, y = Spikelets, colour = Species)) + 
+  theme_slide +
+  theme(
+    strip.background = element_blank(),
+    legend.text = element_text(face = "italic"),
+    axis.title.y = element_text(size = rel(0.8))
+  ) +
+  xlab(NULL) +
+  scale_color_brewer(palette = "Set1", guide = guide_legend(title = NULL)) +
+  geom_point(size = 2, alpha = 0.5) +
+  geom_smooth(method = "lm", colour = alpha("black", 0.5), fill = cscale[1]) +
+  facet_grid( . ~ variable, switch = "x")
+
+################
+# GWAS Z-SCORE #
+################
+
+# get expressed genes in qtls
+lmd.det.all <- det.lmd[, .(call = any(detected)), by = gene]
+
+# number significant
+setkey(lmd.det.all, gene)
+lmd.p.call <- lmd.det.all[lmd.lrt.p]
+lmd.n.sig <- lmd.p.call[call == TRUE & padj < 0.05, length(unique(gene))]
+
+# merge sig and exp calls with crowell qtls
+setkey(crowell.gwas, gene)
+crowell.gwas.called <- lmd.p.call[crowell.gwas]
+setkey(crowell.gwas.called, gene, Bin_id)
+crowell.gwas.called <- unique(crowell.gwas.called)
+
+# number of genes and number expressed per qtl
+crowell.hyp <- crowell.gwas.called[call == TRUE, .(
+  qtl.k.exp = length(unique(gene, na.rm = TRUE)),
+  qtl.q = sum(padj < 0.05, na.rm = TRUE)
+), by = Bin_id]
+
+# number of genes expressed in the dataset
+n.exp.lmd <- lmd.det.all[, sum(call == TRUE, na.rm = TRUE)]
+crowell.hyp[, lmd.n := n.exp.lmd]
+crowell.hyp[, lmd.m := lmd.n.sig]
+
+# perform the hypergeometric test
+crowell.hyp[, hyper.p := phyper(
+  q = qtl.q - 1,
+  m = lmd.m,
+  n = lmd.n - lmd.m,
+  k = qtl.k.exp,
+  lower.tail = FALSE
+)]
+
+# merge back to gwas data
+setkey(crowell.gwas.called,  Bin_id)
+setkey(crowell.hyp, Bin_id)
+crowell.with.hyper <- crowell.hyp[crowell.gwas.called]
+
+# find an interesting qtl
+# chr3: 13143000-13346000 ?
+crowell.with.hyper[Bin_id == "chr3: 13143000-13346000", oryzr::LocToGeneName(
+  unique(gene)
+)]
+
+
+setkey(crowell.with.hyper, hyper.p, Bin_id)
+unique(crowell.with.hyper[!is.na(hyper.p) & hyper.p < 0.1])
+
+
+
 
 
 

@@ -33,16 +33,23 @@ slide:nth-last-of-type(2) {
   background-position: center
 }
 
-#free-data {
-}
-
-
 /*Tidy tiling on list + photo slide*/
-/*slide:nth-of-type(6) article ul {
+#molecular-control-of-meristem-identity ul {
   max-width: 300px;
   margin-left: 4em;
-  }
-*/
+  margin-right: 4em;
+}
+#lmd-dataset ul {
+  max-width: 300px;
+  margin-left: 4em; 
+  margin-right: 4em; 
+}
+#lmd-dataset-1 ul {
+  max-width: 300px;
+  margin-left: 4em; 
+  margin-right: 4em; 
+}
+
 
 /*Centre flexbox on every slide*/
 slide article {
@@ -74,6 +81,12 @@ slide article table.rmdtable th {
 slide article table.rmdtable td, table th {
   padding: 0.5em 1em;
   font-size: 18px;
+}
+
+/*2 columns*/
+#acknowledgements .col {
+  float: left;
+  width: 50%;
 }
 
 /*Logos*/

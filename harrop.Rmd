@@ -54,6 +54,14 @@ source("src/plots.R")
 
 ![](img/pan_arch.png)
 
+## Branching component of yield
+
+```{r branching}
+print(branching)
+```
+
+<footer class="source2">Phenotyping: M. Lorieux (CIAT)</footer>
+
 ## Inflorescence development
 
 ![](img/meristem_identities.png)
@@ -62,7 +70,7 @@ source("src/plots.R")
 
 ## Molecular control of meristem identity
 
-```{r venn, cache = FALSE, fig.width = 9.16/2}
+```{r venn, fig.width = 9.16/2}
 grid::grid.draw(vd)
 ```
 
@@ -79,7 +87,7 @@ grid::grid.draw(vd)
 
 ## LMD results
 
-```{r qc.plot, cache = FALSE}
+```{r qc.plot}
 print(qc.plot)
 ```
 
@@ -93,7 +101,7 @@ print(qc.plot)
 * Gene regulatory networks
 * Reference for GWAS data
 
-<br>
+![](img/qr.png)
 
 ![](img/db.png)
 
@@ -121,19 +129,34 @@ print(svp.lmd.plot)
 print(g1l.fa.plot)
 ```
 
-## *G1*-Like genes
-
-* *Functional characterization of genes putatively controlling inflorescence development in Arabidopsis and rice*, Israr Ud Din, **poster x**.
-
-<br>
+## More about *G1*-Like genes | Israr Ud Din, **Poster 5.3** 
 
 ![](img/israr.png)
 
-## Talk about application to GRN modelling
+## z-Score in some Crowell QTLs
+
+img
+
+<footer class="source2">Crowell <em>et al</em>. (2016), Nat. Commun. <a href="http://www.nature.com/doifinder/10.1038/ncomms10527">10.1038/ncomms10527</a></footer>
+
+## LMD dataset
+
+* Available to use: [https://github.com/EvoRepRice/](https://github.com/evoreprice/lmdpaper/ "EvoRepRice on GitHub")
+* **Genes of interest**
+* Factors coordinating regulatory modules
+* Gene regulatory networks
+* **Reference for GWAS data**
+
+<br>
+
+```{r venn2, fig.width = 9.16/2}
+grid::grid.draw(vd)
+```
 
 ## Acknowledgements
 
-<div class="columns-2">
+<div>
+<div class="col">
 
 *  **EDI team**, IRD, Montpellier, France
     * Hélène Adam
@@ -147,7 +170,8 @@ print(g1l.fa.plot)
     * Michela Osnato
     * Martin Kater
 
-</ul><ul>
+</div>
+<div class="col">
 
 * Bioinformatics @ IRD
     * Christine Tranchant
@@ -160,7 +184,7 @@ print(g1l.fa.plot)
     * Hélène Vignes (CIRAD, Montpellier, France)
     * Génopole Toulouse Midi-Pyrénées (genotoul: Toulouse, France)
     
-</div>
+</div></div>
 
 ![](img/agropolis.png)
 
