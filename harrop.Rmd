@@ -1,6 +1,6 @@
 ---
 title: "Transitions in meristem identity during inflorescence development"
-author: "Tom Harrop<br>thomas.harrop@ird.fr<br>"
+author: "Tom Harrop<br>twharrop@gmail.com<br>"
 date: "2016-09-27"
 output:
   ioslides_presentation:
@@ -54,19 +54,20 @@ source("src/plots.R")
 
 ![](img/pan_arch.png)
 
+<footer class="source2">Image: S. Jouannic</footer>
+
+
 ## Branching component of yield
 
 ```{r branching}
 print(branching)
 ```
 
-<footer class="source2">Phenotyping: M. Lorieux (CIAT)</footer>
+<footer class="source2">Phenotyping: M. Lorieux, CIAT, Colombia</footer>
 
 ## Inflorescence development
 
 ![](img/meristem_identities.png)
-
-<footer class="source2">Harrop <em>et al</em>. (2016), Plant J. <a href="http://onlinelibrary.wiley.com/doi/10.1111/tpj.13147/full">10.1111/tpj.13147</a></footer>
 
 ## Molecular control of meristem identity
 
@@ -85,6 +86,8 @@ grid::grid.draw(vd)
 
 ![](img/lmdFigure.png)
 
+<footer class="source2">Dissections: Israr Ud Din, Hélène Adam, Michela Osnato</footer>
+
 ## LMD results
 
 ```{r qc.plot}
@@ -95,17 +98,28 @@ print(qc.plot)
 
 ## LMD dataset
 
-* Available to use: [https://github.com/EvoRepRice/](https://github.com/evoreprice/lmdpaper/ "EvoRepRice on GitHub")
+<div>
+<div class="col">
+
+* Available to use:  
+[https://github.com/EvoRepRice/](https://github.com/evoreprice/lmdpaper/ "EvoRepRice on GitHub")
 * Genes of interest
+* Reference for GWAS data
 * Factors coordinating regulatory modules
 * Gene regulatory networks
-* Reference for GWAS data
 
 ![](img/qr.png)
 
+</div>
+<div class="col">
+
 ![](img/db.png)
 
-## Regulatory modules
+</div></div>
+
+<footer class="source2"><a href="mailto:twharrop@gmail.com">twharrop@gmail.com</a></footer>
+
+## Coexpressed genes
 
 ```{r mfuzzClusters}
 print(mfuzzClusters)
@@ -133,25 +147,30 @@ print(g1l.fa.plot)
 
 ![](img/israr.png)
 
-## z-Score in some Crowell QTLs
+## Information for GWAS candidates
 
-img
+```{r gwas.lmd.plot}
+print(gwas.lmd.plot)
+```
 
-<footer class="source2">Crowell <em>et al</em>. (2016), Nat. Commun. <a href="http://www.nature.com/doifinder/10.1038/ncomms10527">10.1038/ncomms10527</a></footer>
+<footer class="source2">GWAS data: Crowell <em>et al</em>. (2016), Nat. Commun. <a href="http://www.nature.com/doifinder/10.1038/ncomms10527">10.1038/ncomms10527</a></footer>
 
 ## LMD dataset
 
-* Available to use: [https://github.com/EvoRepRice/](https://github.com/evoreprice/lmdpaper/ "EvoRepRice on GitHub")
+* Available to use:  
+[https://github.com/EvoRepRice/](https://github.com/evoreprice/lmdpaper/ "EvoRepRice on GitHub")
 * **Genes of interest**
+* **Reference for GWAS data**
 * Factors coordinating regulatory modules
 * Gene regulatory networks
-* **Reference for GWAS data**
 
 <br>
 
 ```{r venn2, fig.width = 9.16/2}
 grid::grid.draw(vd)
 ```
+
+<footer class="source2"><a href="mailto:twharrop@gmail.com">twharrop@gmail.com</a></footer>
 
 ## Acknowledgements
 

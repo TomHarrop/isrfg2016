@@ -1,5 +1,6 @@
 library(ggplot2)
 library(data.table)
+library(DESeq2)
 
 #################
 # plot defaults #
@@ -391,7 +392,7 @@ setnames(branching.pd, "Sp_nb", "Spikelets")
 
 # plot
 branching <- ggplot(branching.pd,
-                    aes(x = value, y = Spikelets, colour = Species)) + 
+                    aes(x = value, y = Spikelets, colour = guide_label)) + 
   theme_slide +
   theme(
     strip.background = element_blank(),
@@ -407,6 +408,27 @@ branching <- ggplot(branching.pd,
 ################
 # GWAS Z-SCORE #
 ################
+
+# get lmd expression data
+lmd.vst.object <- DESeq2::varianceStabilizingTransformation(lmd.lrt, blind = FALSE)
+lmd.vst.wide <- data.table(SummarizedExperiment::assay(lmd.vst.object), keep.rownames = TRUE)
+setnames(lmd.vst.wide, "rn", "gene")
+lmd.vst <- melt(lmd.vst.wide, id.vars = "gene", variable.name = "lib", value.name = "vst")
+lmd.vst[, stage := substr(lib, 1, 2)]
+lmd.vst[, stage := factor(plyr::revalue(stage, stage.levels),
+                              levels = stage.levels)]
+lmd.vst.mean <- lmd.vst[, .(vst.mean = rutils::GeometricMean(vst)),
+                        by = .(gene, stage)]
+
+# scale lmd values
+lmd.mean.wide <- dcast(lmd.vst.mean, stage ~ gene, value.var = "vst.mean")
+lmd.mean.mat <- as.matrix(data.frame(lmd.mean.wide, row.names = "stage"))
+lmd.vst.scaled.wide <- data.table(t(scale(lmd.mean.mat, center = TRUE)),
+                                  keep.rownames = TRUE)
+setnames(lmd.vst.scaled.wide, "rn", "gene")
+lmd.vst.scaled <- melt(lmd.vst.scaled.wide, id.vars = "gene",
+                       variable.name = "stage",
+                       value.name = "vst.scaled")
 
 # get expressed genes in qtls
 lmd.det.all <- det.lmd[, .(call = any(detected)), by = gene]
@@ -449,16 +471,51 @@ crowell.with.hyper <- crowell.hyp[crowell.gwas.called]
 
 # find an interesting qtl
 # chr3: 13143000-13346000 ?
-crowell.with.hyper[Bin_id == "chr3: 13143000-13346000", oryzr::LocToGeneName(
-  unique(gene)
-)]
-
-
 setkey(crowell.with.hyper, hyper.p, Bin_id)
 unique(crowell.with.hyper[!is.na(hyper.p) & hyper.p < 0.1])
 
+gwas.total.genes <- crowell.with.hyper[Bin_id == "chr3: 13143000-13346000", length(unique(gene))]
 
+# QTL title
+gwas.plot.title <- crowell.with.hyper[Bin_id == "chr3: 13143000-13346000", paste0(
+  unique(Bin_id), " | ",
+  paste(unique(TRAIT), collapse = " "), " | ",
+  paste(unique(SUB_POP), collapse = " ")
+)]
 
+# extract genes
+gwas.plot.genes <- crowell.with.hyper[Bin_id == "chr3: 13143000-13346000",
+                   data.table(
+                     oryzr::LocToGeneName(unique(gene)), keep.rownames = TRUE)]
+setnames(gwas.plot.genes, "rn", "gene")
+gwas.plot.genes <- gwas.plot.genes[gene %in% lmd.det.all[call == TRUE, gene]]
+setkey(gwas.plot.genes, gene)
+setkey(lmd.vst.scaled, gene)
 
+# merge vst values
+gwas.pd <- lmd.vst.scaled[gwas.plot.genes]
+gwas.pd[is.na(symbols), symbols := gene]
+gwas.pd[, stage := factor(stage, levels = rev(s.order))]
+
+# order genes
+gwas.pd.wide <- dcast(gwas.pd, stage ~ symbols, value.var = "vst.scaled")
+gwas.mat <- as.matrix(data.frame(gwas.pd.wide, row.names = "stage"))
+hc <- hclust(dist(t(gwas.mat), method = "minkowski"), method = "ward.D2")
+gene.order <- hc$labels[hc$order]
+gwas.pd[, symbols := factor(symbols, levels = gene.order)]
+
+# make plot
+gwas.lmd.plot <- ggplot(gwas.pd, aes(x = symbols, y = stage, fill = vst.scaled)) +
+  theme_slide +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, face = "italic")
+  ) +
+  ggtitle(gwas.plot.title) +
+  xlab(NULL) + ylab(NULL) +
+  scale_y_discrete(expand = c(0, 0)) +
+  scale_x_discrete(expand = c(0, 0)) +
+  geom_raster() +
+  scale_fill_gradientn(colours = heatscale,
+                       guide = guide_legend(title = "Scaled\nread count"))
 
 
