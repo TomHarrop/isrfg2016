@@ -1,0 +1,16 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+abstract.txt
+harrop.html
+harrop.md
+harrop_cache/
+harrop_files/
+img/
+isfrg2016.sublime-project
+isfrg2016.sublime-workspace
+isrfg2016.Rproj
+svg/
+*.png
+data

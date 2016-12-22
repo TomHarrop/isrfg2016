@@ -474,7 +474,10 @@ crowell.with.hyper <- crowell.hyp[crowell.gwas.called]
 setkey(crowell.with.hyper, hyper.p, Bin_id)
 unique(crowell.with.hyper[!is.na(hyper.p) & hyper.p < 0.1])
 
-gwas.total.genes <- crowell.with.hyper[Bin_id == "chr3: 13143000-13346000", length(unique(gene))]
+gwas.total.genes <- crowell.with.hyper[Bin_id == "chr3: 13143000-13346000",
+                                       length(unique(gene))]
+
+crowell.with.hyper[Bin_id == "chr3: 13143000-13346000" & padj < 0.05]
 
 # QTL title
 gwas.plot.title <- crowell.with.hyper[Bin_id == "chr3: 13143000-13346000", paste0(

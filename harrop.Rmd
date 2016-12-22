@@ -4,7 +4,7 @@ author: "Tom Harrop<br>twharrop@gmail.com<br>"
 date: "2016-09-27"
 output:
   ioslides_presentation:
-    self_contained: false
+    self_contained: true
     smaller: true
     transition: "faster"
     widescreen: true
@@ -54,7 +54,7 @@ source("src/plots.R")
 
 ![](img/pan_arch.png)
 
-<footer class="source2">Image: S. Jouannic</footer>
+<footer class="source2">Image: Stefan Jouannic</footer>
 
 
 ## Branching component of yield
@@ -63,11 +63,13 @@ source("src/plots.R")
 print(branching)
 ```
 
-<footer class="source2">Phenotyping: M. Lorieux, CIAT, Colombia</footer>
+<footer class="source2">Phenotyping: Mathias Lorieux, CIAT, Colombia</footer>
 
 ## Inflorescence development
 
 ![](img/meristem_identities.png)
+
+<footer class="source2">Israr Ud Din, Hélène Adam</footer>
 
 ## Molecular control of meristem identity
 
@@ -181,23 +183,23 @@ grid::grid.draw(vd)
     * Hélène Adam
     * Stefan Jouannic
     * James Tregear
+    * Siwaret Arikit
     * Axel Verdier
-
-*  **Kater Lab**, Università degli Studi di Milano, Italy
-    * Israr Ud Din
-    * Veronica Gregis
-    * Michela Osnato
-    * Martin Kater
-
-</div>
-<div class="col">
-
 * Bioinformatics @ IRD
     * Christine Tranchant
     * François Sabot
     * Ndomassi Tando
     * Pierre Larmande
 
+</div>
+<div class="col">
+
+*  **Kater Lab**, Università degli Studi di Milano, Italy
+    * Israr Ud Din
+    * Veronica Gregis
+    * Elia Lacchini
+    * Michela Osnato
+    * Martin Kater
 * Sequencing & microscopy
     * Histology and Plant Cell Imaging Platform (PHIV: CIRAD, Montpellier, France)
     * Hélène Vignes (CIRAD, Montpellier, France)

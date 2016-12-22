@@ -7,8 +7,10 @@
 * rice inflorescence has a main axis called the rachis
 * the primary branches emerge from nodes on the rachis
 * secondary branches similarly attached to primary branches
-* spikelets are short branches on the primary and secondary branches
-* each spikelet bears one grain and spikelets are the individual floral units of the rice inflorescence
+* tertiary branches may also form on secondary branches
+* spikelets are short branches on the primary and higher-order branches
+* in the mature inflorescence each spikelet bears one grain
+* spikelets are the individual floral units of the rice inflorescence
 
 ## Branching component of yield
 
@@ -25,7 +27,7 @@
 * During elongation, the apex retains meristem activity and can give rise to axillary meristems (AM)
 * AM may differentiate into secondary and higher-order branches or be converted directly to spikelet meristem
 * Spikelet meristem is the determinate phase of development
-* After spikelet differentiation complexity is fixed, and the branches elongate flowers develop
+* After spikelet meristem formation, complexity is fixed, and the branches elongate flowers develop
 * Two stages where phase transition of meristems conditions branching:
 	* Timing of rachis meristem abortion determines the number of primary branches.
     * Transition of indeterminate branch meristems to determinate spikelet meristems specifies the complexity of branching
@@ -39,7 +41,7 @@
 * There are several examples of genes and interactions that have been studied individually and been found to control meristem identity transitions
 * the landscape of gene expression is different between meristem types
 * no mechanistic understanding of dynamic gene–gene interactions that control these patterns
-* do the members of this transcriptional network control branching and yield, and how were they affected by domestication?
+* does expression of the members of this transcriptional network control branching and yield, and how were they affected by domestication?
 * to answer this broad question we started by describing gene expression in different meristem types
 
 ## Laser microdissection (LMD)
@@ -55,6 +57,7 @@
 * RNA integrity number higher than 7 for each sample. Good results for LMD.
 * Used Ovation RNA-Seq System V2 to amplify RNA and produce libraries
 * Sequenced around 70 M reads per library, resulting in an average of more than 20 M reads within annotated genes
+* detected a total of 11k genes using strict expression cutoffs
 
 ## LMD Dataset
 
@@ -81,8 +84,9 @@
 * Looked more closely in the clusters and found three G1-Like genes
 * G1-Like is a small family of transcriptional activators
 * G1L5 is overexpressed in the TAWAWA1 mutant, causing increased secondary branch and spikelet production
+* G1L1 and G1L2 are expressed in the same pattern
 
-## G1L5 targes
+## G1L5 targets
 
 * G1L5 activates two SVP-like MADS transcription factors, which may promote branch meristem identity (delay SM determination)
 * these two genes were also coexpressed with G1L1, G1L2 and G1L5
@@ -110,14 +114,8 @@
 ## LMD dataset
 
 * Given examples of using the LMD dataset for analysing genes of interest and working with candidate gene lists
-* Lots of other things you could do with this data
+* Lots of other things you could do with this resource
 * These landscapes of expression are basically the final outputs of complex interactions between many TFs that coordinate the expression of each gene
 * What we've done is measured the "steady states" of gene expression in different meristem types
 * Would be v. interesting to model the interactions in the regulatory components that produce these steady states
 * Obviously with a view to testing the network e.g. with mutants
-
-
-
-
-
-
